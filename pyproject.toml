@@ -1,0 +1,44 @@
+[project]
+name = "auto-promptimiser"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Dan Austin", email = "dan@aituning.ai" }
+]
+requires-python = ">=3.12.2"
+dependencies = [
+    "pyyaml>=6.0.3",
+    "typer>=0.12.0",
+    "rich>=13.7.0",
+    "questionary>=2.0.0",
+    "litellm>=1.79.3",
+    "pydantic>=2.12.4",
+    "tinydb>=4.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "harbor",
+    "aiodocker"
+]
+
+[project.scripts]
+auto-promptimiser = "auto_promptimiser:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "oracle: deterministic tests with scripted LLM responses",
+    "real_llm: integration tests with actual LLM API calls",
+]

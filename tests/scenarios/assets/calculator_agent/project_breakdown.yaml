@@ -1,0 +1,35 @@
+key_files:
+  agent.py:
+    description: Main loop of this agent. Takes the user input, calls LLM, parses LLM response to action, calls tool if present. Also includes the system message.
+
+  tool_call_entities.py:
+    description: Includes the dataclasses for each available action
+
+  calculator_tool.py:
+    description: The implementation of the calculator tool
+
+available_actions:
+  calculator:
+    description: Performs basic arithmetic operations on two numbers
+    parameters:
+      float_a:
+        type: float
+        description: First number in the operation
+      float_b:
+        type: float
+        description: Second number in the operation
+      operation:
+        type: string
+        description: The arithmetic operation to perform
+        options:
+          - add
+          - subtract
+          - multiply
+          - divide
+
+editing_guidelines:
+  tool_implementation_only:
+    description: If the tool name and arguments are unchanged, you can just edit the implementation file.
+
+  tool_signature_changes:
+    description: If the name and/or args are changed, be aware of the tools dataclass and the parser as they may too need to be updated.

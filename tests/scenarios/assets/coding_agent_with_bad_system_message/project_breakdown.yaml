@@ -1,0 +1,64 @@
+key_files:
+  agent.py:
+    description: Main loop of this agent. Takes the user input, calls LLM, parses LLM response to actions, executes file operations, and tracks trajectory. Also includes the system message which contains guidance for how the agent should behave.
+
+  tool_call_entities.py:
+    description: Includes the dataclasses for each available action (FileReadToolCall, FileEditToolCall, FileWriteToolCall, BashToolCall, FinishToolCall)
+
+  file_system_tool_handler.py:
+    description: The implementation of file system operations (read, write, edit files) and bash command execution
+
+available_actions:
+  file_read:
+    description: Reads the contents of a file at the specified path
+    parameters:
+      file_path:
+        type: string
+        description: Path to the file to read
+
+  file_edit:
+    description: Replaces old content with new content in a file
+    parameters:
+      file_path:
+        type: string
+        description: Path to the file to edit
+      old_content:
+        type: string
+        description: Exact content to replace (multiline supported with | syntax)
+      new_content:
+        type: string
+        description: New content to insert (multiline supported with | syntax)
+
+  file_write:
+    description: Creates a new file with the specified content (creates parent directories if needed)
+    parameters:
+      file_path:
+        type: string
+        description: Path to the file to create
+      content:
+        type: string
+        description: Content to write to the file (multiline supported with | syntax)
+
+  bash:
+    description: Executes a bash command in the environment
+    parameters:
+      command:
+        type: string
+        description: The bash command to execute
+
+  finish:
+    description: Signals task completion and ends the agent loop
+    parameters:
+      message:
+        type: string
+        description: Completion message describing what was accomplished
+
+editing_guidelines:
+  system_message_changes:
+    description: The system message (SYSTEM_PROMPT) in agent.py controls how the agent reasons and behaves. You can modify the instructions, add guidance, or remove problematic advice.
+
+  tool_implementation_only:
+    description: If the tool name and arguments are unchanged, you can just edit the file_system_tool_handler.py implementation file.
+
+  tool_signature_changes:
+    description: If the name and/or args are changed, you must update tool_call_entities.py dataclasses and the parser mapping in agent.py __init__ method.
